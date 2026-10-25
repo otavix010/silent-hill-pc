@@ -63,7 +63,7 @@ O pacote `sh1.fluidez` vem **ligado**. O laço principal do jogo espera dois VBl
 
 ## Medidor de desempenho
 
-O pacote `sh1.medidor` também vem ligado. **F10** mostra ou esconde a linha `FPS · CPU · GPU · VRAM · RAM` (as temperaturas só aparecem quando o Windows as informa). `SH_OSD=1` abre o jogo já com ela visível (é o que a opção do launcher faz) e `SH_OSD_TECLA=0` desliga a tecla. Uma cópia da linha vai para o log alguns segundos depois de ligar, útil para relatar problemas.
+O pacote `sh1.medidor` também vem ligado. **F10** mostra ou esconde a linha `FPS · CPU · GPU · VRAM · RAM` (as temperaturas só aparecem quando o Windows as informa). É o medidor padrão dos ports Otavix (`src/otavix_osd.c`): desenhado numa camada própria por cima do jogo, na resolução real da tela, com o tamanho de referência de 1080p (fonte de 16 px numa área de 1080 linhas, proporcional nas outras), nítido e igual qualquer que seja a resolução interna do jogo. Aparece em janela e em tela cheia sem bordas; na tela cheia exclusiva, não. `SH_OSD=1` abre o jogo já com ela visível (é o que a opção do launcher faz) e `SH_OSD_TECLA=0` desliga a tecla. Uma cópia da linha vai para o log alguns segundos depois de ligar, útil para relatar problemas.
 
 ## Movimento suave
 

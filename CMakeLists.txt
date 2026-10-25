@@ -60,8 +60,9 @@ target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/controles_mo
 # Opções do Otavix Launcher que o runtime só leria pelo mini-launcher do framework
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/opcoes_launcher.c")
 # Medidor de desempenho (F10 / SH_OSD=1): contadores do Windows (PDH) e a DXGI
-target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/medidor.c")
-target_link_libraries(psx-runtime PRIVATE pdh dxgi)
+target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/medidor.c"
+                                   "${CMAKE_CURRENT_SOURCE_DIR}/src/otavix_osd.c")
+target_link_libraries(psx-runtime PRIVATE pdh dxgi gdi32 user32)
 # Movimento suave: a interpolação de apresentação do PSXRecomp (só um mod pode ligar)
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/movimento_suave.c")
 # Fluidez 50 FPS: o gameplay espera 1 VBlank por quadro, com a CPU emulada 2x ([timing] do game.toml)

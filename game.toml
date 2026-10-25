@@ -51,6 +51,12 @@ aspect_ratio = "4:3"
 dithering = "off"
 # resolução interna acompanha o monitor e cai sozinha se faltar desempenho
 internal_resolution = "auto"
+# texturas suavizadas, com mipmaps e anisotrópico: a do asfalto é um ruído de pontos coloridos
+# que, ampliado sem filtro, vira blocos que piscam com a câmera em movimento (no PS1, a 320x240
+# numa TV, era um granulado suave)
+texture_filtering = "bilinear"
+texture_lod = "mipmap"
+anisotropic_filtering = 16
 
 [controller]
 default_mode = "digital"

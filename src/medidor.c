@@ -8,8 +8,8 @@
  * que acabou de fazer em segundos Q19.12 (configs/EUR da decompilação), então é o FPS do
  * próprio jogo, não o da tela. O resto vem de uma thread que lê, a cada segundo, os mesmos
  * contadores do Gerenciador de Tarefas (PDH), a DXGI e o D3DKMT, como no GoW. O texto vai
- * para a linha de diagnóstico do OSD do runtime (host_osd_set_diagnostics), escrita
- * daqui, na thread do jogo (o OSD não é protegido para outras threads).
+ * para o medidor padrão dos ports Otavix (otavix_osd.c): nítido, desenhado na resolução da
+ * tela e do tamanho de referência de 1080p, em vez do OSD do runtime (fonte 8x8 ampliada).
  */
 #define COBJMACROS
 #include <windows.h>
@@ -24,7 +24,7 @@
 #include <wchar.h>
 #include <wctype.h>
 
-#include "host_osd.h"
+#include "otavix_osd.h"
 #include "mod_plugins.h"
 
 #define PLUGIN "sh1.medidor"
@@ -184,7 +184,7 @@ static void quadro(void)
         const int f10 = (GetAsyncKeyState(VK_F10) & 0x8000) != 0;
         if (f10 && !s_f10 && janela_em_foco()) {
             s_ligado = !s_ligado;
-            if (!s_ligado) host_osd_set_diagnostics(NULL, NULL);
+            if (!s_ligado) otx_osd_texto(NULL);
         }
         s_f10 = f10;
     }
@@ -215,13 +215,13 @@ static void quadro(void)
             snprintf(fps, sizeof fps, "FPS %.1f %.1f ms", 4096.0 / media, 1000.0 * media / 4096.0);
         }
         if (s_gpu_pct >= 0) snprintf(gpu, sizeof gpu, "%ld%%", (long)s_gpu_pct);
-        if (s_temp_cpu > 0) snprintf(tc, sizeof tc, " %ldC", (long)s_temp_cpu);
-        if (s_temp_gpu > 0) snprintf(tg, sizeof tg, " %ldC", (long)s_temp_gpu);
+        if (s_temp_cpu > 0) snprintf(tc, sizeof tc, " %ld\xC2\xB0" "C", (long)s_temp_cpu);   /* °C em UTF-8 */
+        if (s_temp_gpu > 0) snprintf(tg, sizeof tg, " %ld\xC2\xB0" "C", (long)s_temp_gpu);
         if (s_vram_mb >= 0) snprintf(vram, sizeof vram, "  VRAM %.1f/%.1f GB", s_vram_mb / 1024.0, s_vram_tot_mb / 1024.0);
         if (s_ram_mb >= 0) snprintf(ram, sizeof ram, "  RAM %.1f/%.1f GB", s_ram_mb / 1024.0, s_ram_tot_mb / 1024.0);
         char linha[160];
-        snprintf(linha, sizeof linha, "%s  CPU %d%%%s  GPU %s%s%s%s", fps, cpu, tc, gpu, tg, vram, ram);
-        host_osd_set_diagnostics(linha, NULL);
+        snprintf(linha, sizeof linha, "%s   CPU %d%%%s   GPU %s%s %s %s", fps, cpu, tc, gpu, tg, vram, ram);
+        otx_osd_texto(linha);
         /* uma linha no log (~5 s depois de ligar, com o amostrador já rodando) para relatos */
         static int linhas;
         if (++linhas == 10) { printf("[medidor] %s\n", linha); fflush(stdout); }
@@ -236,6 +236,7 @@ static void ativa(void)
     s_ligado = e && *e == '1';
     e = getenv("SH_OSD_TECLA");
     s_tecla = !(e && *e == '0');
+    otx_osd_iniciar();   /* a thread do medidor fica escondida até ter texto */
 }
 
 PSX_MOD_CONSTRUCTOR(sh1_registra_medidor)
