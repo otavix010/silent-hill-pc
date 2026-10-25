@@ -111,9 +111,13 @@ function Submodulo([string]$git, [string]$pasta, [string]$url, [string]$sha) {
     Exec $LOG "`"$git`" -C `"$p`" -c advice.detachedHead=false checkout --force --quiet $sha"
     Exec $LOG "`"$git`" -C `"$p`" submodule update --init --recursive --quiet"
 }
-# correções nossas no PSXRecomp baixado (patches\psxrecomp_sh1.py; pode rodar de novo)
+# correções nossas no PSXRecomp baixado (patches\psxrecomp_sh1.py; pode rodar de novo) e o
+# recompilador refeito em cima delas: o tools\compile_overlays.py entra no hash do gerador de
+# código, e o runtime recusa (todas as fases no interpretador) um psxrecomp-game com o hash de
+# antes. O ensure-emitters é incremental: sem mudança, leva segundos.
 function Corrigir-Framework {
     Exec $LOG "python `"$R\patches\psxrecomp_sh1.py`" `"$R\psxrecomp`""
+    Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" ensure-emitters --project-root `"$R`""
 }
 Etapa '1_ferramentas' {
     # "python" pode ser o atalho da Microsoft Store (abre a loja, não roda nada)
@@ -137,7 +141,6 @@ Etapa '1_ferramentas' {
     Msg 'baixando o PSXRecomp e a interface dele (versões fixadas)'
     Submodulo $git 'psxrecomp' $PSXRECOMP_URL $PSXRECOMP_SHA
     Submodulo $git 'recomp-ui' $RECOMPUI_URL $RECOMPUI_SHA
-    Corrigir-Framework
     Msg 'compilador do PSXRecomp (cmake-clang-v1; baixa uma vez para %LOCALAPPDATA%\retcomm)'
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" ensure-toolchain --project-root `"$R`""
 }
@@ -195,14 +198,26 @@ $img = if (Test-Path -LiteralPath $imagem) { (Get-Content -LiteralPath $imagem -
 
 # ---------------------------------------------------------------------------- tradução e compilação
 Etapa '3_traduzir' {
+    Corrigir-Framework   # também no -RefazerDe 3, depois de atualizar o port
     Msg 'traduzindo o código do jogo para C (generated\)'
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" generate --config `"$R\game.toml`" --project-root `"$R`" --disc `"$img`""
 }
 Etapa '4_compilar' {
-    Corrigir-Framework   # também no -RefazerDe 3/4, depois de atualizar o port
+    Corrigir-Framework   # também no -RefazerDe 4
     Msg 'compilando (leva alguns minutos)'
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" rebuild --config `"$R\game.toml`" --project-root `"$R`" --build-dir `"$R\build-release`" --no-pgo"
     if (-not (Test-Path -LiteralPath (Join-Path $R 'build-release\SilentHill.exe'))) { throw 'a compilação terminou sem o build-release\SilentHill.exe' }
+    # recompilador e runtime com o mesmo hash, senão o jogo recusa compilar as fases e roda
+    # tudo no interpretador (bem mais lento) sem avisar ninguém
+    $tk = Join-Path $R 'build-release\overlay_toolchain'
+    $hRec = "$(SemExcecao { & (Join-Path $tk 'psxrecomp-game.exe') --codegen-hash 2>$null } | Select-Object -First 1)".Trim()
+    $hRun = ''
+    $hh = Join-Path $tk 'include\overlay_codegen_hash.h'
+    if ((Test-Path -LiteralPath $hh) -and ((Get-Content -LiteralPath $hh -Raw) -match 'PSX_OVERLAY_CODEGEN_HASH\s+0x([0-9A-Fa-f]+)')) { $hRun = $Matches[1] }
+    if ($hRec -and $hRun -and ($hRec -ne $hRun)) {
+        throw "o recompilador (hash $hRec) não bate com o runtime (hash $hRun): as fases rodariam no interpretador. Rode de novo com -RefazerDe 3."
+    }
+    Msg "recompilador e runtime conferidos (hash $hRun)"
 }
 Etapa '5_jogar' {
     $j = @(
