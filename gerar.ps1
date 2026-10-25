@@ -52,9 +52,22 @@ function SemExcecao([scriptblock]$bloco) {
     $ErrorActionPreference = 'Continue'
     try { & $bloco } finally { $ErrorActionPreference = $eap }
 }
+# escreve no log por um FileStream compartilhado, tentando de novo: o launcher lê o log da etapa
+# a cada 500 ms, e no PowerShell 5.1 o Add-Content/Set-Content falham ("sendo usado por outro
+# processo") com o arquivo aberto por outro, mesmo só para leitura
+function Anotar([string]$arq, [string]$texto, [switch]$Novo) {
+    $b = [Text.Encoding]::UTF8.GetBytes("$texto`r`n")
+    for ($i = 0; ; $i++) {
+        try {
+            $fs = New-Object IO.FileStream($arq, $(if ($Novo) { 'Create' } else { 'Append' }), 'Write', 'ReadWrite')
+            try { $fs.Write($b, 0, $b.Length) } finally { $fs.Dispose() }
+            return
+        } catch [IO.IOException] { if ($i -ge 50) { throw }; Start-Sleep -Milliseconds 100 }
+    }
+}
 # roda um comando pelo cmd (stdout e stderr no log da etapa); falha = exceção com o fim do log
 function Exec([string]$log, [string]$linha) {
-    Add-Content -Path $log -Value "`r`n> $linha" -Encoding UTF8
+    Anotar $log "`r`n> $linha"
     cmd /c "$linha >> `"$log`" 2>&1"
     if ($LASTEXITCODE -ne 0) {
         Write-Host (Get-Content $log -Tail 25 | Out-String) -ForegroundColor DarkGray
@@ -65,7 +78,7 @@ function Etapa([string]$nome, [scriptblock]$corpo) {
     $marca = Join-Path $OUT "$nome.ok"
     if ((Test-Path $marca) -and -not $Refazer) { Msg "${nome}: já feita (pulando)"; return }
     $script:LOG = Join-Path $OUT "$nome.log"
-    Set-Content -Path $script:LOG -Value "== $nome $(Get-Date)" -Encoding UTF8
+    Anotar $script:LOG "== $nome $(Get-Date)" -Novo
     Msg "$nome ..."
     $t0 = Get-Date
     & $corpo
