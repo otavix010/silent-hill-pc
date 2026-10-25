@@ -1,0 +1,22 @@
+format_version = 11
+id = "sh1.fluidez"
+version = "1.0.0"
+name = "Fluidez 50 FPS"
+author = "otavix010"
+description = "O gameplay a 50 quadros por segundo em vez dos 25 do PlayStation europeu, na mesma velocidade de jogo: o jogo mede o tempo de cada quadro, então andar, correr e lutar continuam iguais."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01514"
+
+[[feature]]
+id = "fluidez"
+name = "Fluidez 50 FPS"
+description = "Ligado, o jogo espera 1 VBlank por quadro no gameplay (o original espera 2) e a CPU emulada fica 2x mais rápida para dar conta. Desligado, é o ritmo original de 25 fps. Menus e vídeos não mudam."
+group = "Desempenho"
+default_enabled = true
+
+[[plugin]]
+feature = "fluidez"
+id = "sh1.fluidez"

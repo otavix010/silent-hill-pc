@@ -39,6 +39,11 @@ window_title = "SilentHill Recompiled"
 memcard_dir = "saves"
 overlay_cache = true
 
+# CPU emulada 2x mais rápida, só enquanto o mod sh1.fluidez (50 fps no gameplay) estiver ligado
+[timing]
+guest_cycle_scale = 2
+guest_cycle_scale_gated = true
+
 [video]
 renderer = "opengl"
 aspect_ratio = "4:3"

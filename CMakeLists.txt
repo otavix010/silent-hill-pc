@@ -64,6 +64,8 @@ target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/medidor.c")
 target_link_libraries(psx-runtime PRIVATE pdh dxgi)
 # Movimento suave: a interpolação de apresentação do PSXRecomp (só um mod pode ligar)
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/movimento_suave.c")
+# Fluidez 50 FPS: o gameplay espera 1 VBlank por quadro, com a CPU emulada 2x ([timing] do game.toml)
+target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/fluidez.c")
 
 foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_PSX_RUNTIME_CONFIG}")

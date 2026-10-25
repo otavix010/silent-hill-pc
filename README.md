@@ -14,6 +14,7 @@ Como o código do jogo não pode ser distribuído, **o seu PC gera e compila a p
 
 - **Controles modernos** (um mod que se liga e desliga): o analógico ou o direcional apontam para onde o Harry anda, em relação à câmera, em vez dos controles "tank". Mirar, menus e cenas continuam com o controle original. Desligado, o jogo fica como no PlayStation.
 - Resolução interna acompanhando o monitor (cai sozinha se faltar desempenho) e sem o pontilhado (*dithering*) do PS1, que num monitor nítido vira grão colorido.
+- **50 FPS no gameplay** (mod ligado por padrão): o PlayStation europeu roda o gameplay a 25 fps; aqui ele vai a 50, na mesma velocidade de jogo.
 - **Medidor de desempenho** (outro mod): **F10** mostra FPS, uso e temperatura da CPU e da GPU, VRAM e RAM no canto da tela.
 
 ## Como jogar
@@ -55,6 +56,10 @@ O pacote `mods/preloaded/packages/sh1.controles-modernos` vem **ligado**. As esc
 | Direcional também no modo moderno | ligada | o direcional e o teclado apontam a direção, em oito sentidos |
 | Velocidade do giro | normal | suave, normal ou instantâneo |
 | Zona morta do analógico | 25% | quanto o analógico precisa inclinar antes de o Harry andar |
+
+## Fluidez 50 FPS
+
+O pacote `sh1.fluidez` vem **ligado**. O laço principal do jogo espera dois VBlanks por quadro no gameplay (25 fps no PAL) e mede o tempo real de cada quadro pelas linhas de vídeo; movimento, física e animação usam esse tempo. O mod faz o jogo esperar um VBlank só, e o `[timing] guest_cycle_scale = 2` do `game.toml` deixa a CPU emulada duas vezes mais rápida enquanto o mod está ligado (vídeo, CD, som e timers seguem o tempo do hardware), porque o quadro do gameplay não cabia num VBlank do PS1. Resultado: 50 fps, e o Harry anda a mesma distância no mesmo tempo. Menus, vídeos e as demonstrações da tela de título não mudam. Desligado, é o ritmo original.
 
 ## Medidor de desempenho
 
