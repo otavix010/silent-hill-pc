@@ -62,6 +62,8 @@ target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/opcoes_launc
 # Medidor de desempenho (F10 / SH_OSD=1): contadores do Windows (PDH) e a DXGI
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/medidor.c")
 target_link_libraries(psx-runtime PRIVATE pdh dxgi)
+# Movimento suave: a interpolação de apresentação do PSXRecomp (só um mod pode ligar)
+target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/movimento_suave.c")
 
 foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_PSX_RUNTIME_CONFIG}")

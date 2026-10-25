@@ -1,0 +1,73 @@
+format_version = 11
+id = "sh1.movimento-suave"
+version = "1.0.0"
+name = "Movimento suave"
+author = "otavix010"
+description = "Mistura os quadros prontos do jogo na taxa do monitor (ou na escolhida), para a imagem andar mais lisa num monitor de 120/144/240 Hz. O jogo continua no ritmo original; é uma transição entre quadros, sem vetores de movimento."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01514"
+
+[[feature]]
+id = "movimento-suave"
+name = "Movimento suave"
+description = "Desligado, a imagem é a do jogo, quadro a quadro. Ligado, desliga a sincronização vertical do driver (o próprio apresentador cuida do ritmo) e usa o OpenGL."
+group = "Vídeo"
+default_enabled = false
+vsync = "off"
+
+[[option]]
+feature = "movimento-suave"
+id = "taxa"
+label = "Taxa"
+description = "Quantas imagens por segundo mostrar."
+group = "Vídeo"
+type = "choice"
+default = "0"
+
+[[option.choice]]
+value = "0"
+label = "A do monitor"
+
+[[option.choice]]
+value = "90"
+label = "90 fps"
+
+[[option.choice]]
+value = "120"
+label = "120 fps"
+
+[[option.choice]]
+value = "144"
+label = "144 fps"
+
+[[option.choice]]
+value = "165"
+label = "165 fps"
+
+[[option.choice]]
+value = "240"
+label = "240 fps"
+
+[[option]]
+feature = "movimento-suave"
+id = "modo"
+label = "Mistura"
+description = "Adaptativa corta limpo nas mudanças grandes (menos rastro em quem se move); linear mistura sempre."
+group = "Vídeo"
+type = "choice"
+default = "adaptativo"
+
+[[option.choice]]
+value = "adaptativo"
+label = "Adaptativa"
+
+[[option.choice]]
+value = "linear"
+label = "Linear"
+
+[[plugin]]
+feature = "movimento-suave"
+id = "sh1.movimento-suave"

@@ -60,6 +60,10 @@ O pacote `mods/preloaded/packages/sh1.controles-modernos` vem **ligado**. As esc
 
 O pacote `sh1.medidor` também vem ligado. **F10** mostra ou esconde a linha `FPS · CPU · GPU · VRAM · RAM` (as temperaturas só aparecem quando o Windows as informa). `SH_OSD=1` abre o jogo já com ela visível (é o que a opção do launcher faz) e `SH_OSD_TECLA=0` desliga a tecla. Uma cópia da linha vai para o log alguns segundos depois de ligar, útil para relatar problemas.
 
+## Movimento suave
+
+O pacote `sh1.movimento-suave` vem **desligado**. Ligado, mistura os quadros prontos do jogo na taxa do monitor (ou em 90/120/144/165/240 fps), para a imagem andar mais lisa num monitor rápido. O jogo continua no ritmo original: é uma transição entre quadros, sem vetores de movimento. A mistura **adaptativa** (padrão) corta limpo nas mudanças grandes, para não deixar rastro dobrado; a **linear** mistura sempre. Com ele ligado, a sincronização vertical do driver fica desligada (o próprio apresentador cuida do ritmo).
+
 ## Como funciona
 
 - **PSXRecomp** traduz o executável do PS1 (MIPS R3000A) para C e compila com o runtime dele (GPU em OpenGL, GTE, SPU, CD, vídeos MDEC e áudio XA). Os módulos de código que o jogo carrega do disco durante o jogo são traduzidos e compilados na hora pelo próprio runtime.
