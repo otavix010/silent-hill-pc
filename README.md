@@ -14,6 +14,7 @@ Como o código do jogo não pode ser distribuído, **o seu PC gera e compila a p
 
 - **Controles modernos** (um mod que se liga e desliga): o analógico ou o direcional apontam para onde o Harry anda, em relação à câmera, em vez dos controles "tank". Mirar, menus e cenas continuam com o controle original. Desligado, o jogo fica como no PlayStation.
 - Resolução interna acompanhando o monitor (cai sozinha se faltar desempenho) e sem o pontilhado (*dithering*) do PS1, que num monitor nítido vira grão colorido.
+- **Medidor de desempenho** (outro mod): **F10** mostra FPS, uso e temperatura da CPU e da GPU, VRAM e RAM no canto da tela.
 
 ## Como jogar
 
@@ -55,11 +56,16 @@ O pacote `mods/preloaded/packages/sh1.controles-modernos` vem **ligado**. As esc
 | Velocidade do giro | normal | suave, normal ou instantâneo |
 | Zona morta do analógico | 25% | quanto o analógico precisa inclinar antes de o Harry andar |
 
+## Medidor de desempenho
+
+O pacote `sh1.medidor` também vem ligado. **F10** mostra ou esconde a linha `FPS · CPU · GPU · VRAM · RAM` (as temperaturas só aparecem quando o Windows as informa). `SH_OSD=1` abre o jogo já com ela visível (é o que a opção do launcher faz) e `SH_OSD_TECLA=0` desliga a tecla. Uma cópia da linha vai para o log alguns segundos depois de ligar, útil para relatar problemas.
+
 ## Como funciona
 
 - **PSXRecomp** traduz o executável do PS1 (MIPS R3000A) para C e compila com o runtime dele (GPU em OpenGL, GTE, SPU, CD, vídeos MDEC e áudio XA). Os módulos de código que o jogo carrega do disco durante o jogo são traduzidos e compilados na hora pelo próprio runtime.
 - **O mod de controles** (`src/controles_modernos.c`) lê o controle a cada quadro: com o analógico inclinado, calcula a direção em relação à câmera, gira o Harry e entrega ao jogo só "para frente" (e "correr"). Os endereços da versão europeia vêm do mapa de símbolos da [decompilação do Silent Hill](https://github.com/Vatuu/silent-hill-decomp) (`configs/EUR`).
 - **Opções do launcher** que o runtime só leria pelo mini-launcher do PSXRecomp: `src/opcoes_launcher.c` (por enquanto, `SH_VOLUME`).
+- **O medidor** (`src/medidor.c`) usa o tempo de quadro do próprio jogo para o FPS, os contadores de GPU do Windows para este processo e a DXGI para a VRAM.
 
 ## Estado atual
 
@@ -74,7 +80,7 @@ Em desenvolvimento. Testado: abertura, menus, começo de jogo e a primeira área
 
 ## English summary
 
-A **native PC port** of *Silent Hill* (PlayStation, 1999), made by **static recompilation** with [PSXRecomp](https://github.com/mstan/psxrecomp), plus an optional **modern controls** mod (camera-relative analog and D-pad movement instead of tank controls; aiming, menus and cutscenes keep the original controls).
+A **native PC port** of *Silent Hill* (PlayStation, 1999), made by **static recompilation** with [PSXRecomp](https://github.com/mstan/psxrecomp), plus an optional **modern controls** mod (camera-relative analog and D-pad movement instead of tank controls; aiming, menus and cutscenes keep the original controls) and a **performance overlay** (F10: FPS, CPU, GPU, VRAM, RAM).
 
 **Bring your own disc**: no game code or data here. You need the **European** release (SLES-01514, Redump "Silent Hill (Europe) (En,Fr,De,Es,It)") as .cue/.bin or .chd (or a .7z/.zip/.rar with them). Install Python (`winget install Python.Python.3.12`), download this repository to a path without spaces, double-click **`gerar.cmd`** (it fetches the pinned PSXRecomp and its compiler, checks the disc, translates the game code on your PC and builds `build-release\SilentHill.exe`), then play with **`jogar.cmd`**. Easiest: the [Otavix Launcher](https://github.com/otavix010/otavix-launcher/releases/latest).
 
