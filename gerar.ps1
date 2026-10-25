@@ -107,8 +107,13 @@ function Submodulo([string]$git, [string]$pasta, [string]$url, [string]$sha) {
         if (Test-Path -LiteralPath $p) { Remove-Item -LiteralPath $p -Recurse -Force }
         Exec $LOG "`"$git`" clone --quiet $url `"$p`""
     }
-    Exec $LOG "`"$git`" -C `"$p`" -c advice.detachedHead=false checkout --quiet $sha"
+    # --force: descarta as correções de patches\ (aplicadas de novo depois) se a versão mudar
+    Exec $LOG "`"$git`" -C `"$p`" -c advice.detachedHead=false checkout --force --quiet $sha"
     Exec $LOG "`"$git`" -C `"$p`" submodule update --init --recursive --quiet"
+}
+# correções nossas no PSXRecomp baixado (patches\psxrecomp_sh1.py; pode rodar de novo)
+function Corrigir-Framework {
+    Exec $LOG "python `"$R\patches\psxrecomp_sh1.py`" `"$R\psxrecomp`""
 }
 Etapa '1_ferramentas' {
     # "python" pode ser o atalho da Microsoft Store (abre a loja, não roda nada)
@@ -132,6 +137,7 @@ Etapa '1_ferramentas' {
     Msg 'baixando o PSXRecomp e a interface dele (versões fixadas)'
     Submodulo $git 'psxrecomp' $PSXRECOMP_URL $PSXRECOMP_SHA
     Submodulo $git 'recomp-ui' $RECOMPUI_URL $RECOMPUI_SHA
+    Corrigir-Framework
     Msg 'compilador do PSXRecomp (cmake-clang-v1; baixa uma vez para %LOCALAPPDATA%\retcomm)'
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" ensure-toolchain --project-root `"$R`""
 }
@@ -193,6 +199,7 @@ Etapa '3_traduzir' {
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" generate --config `"$R\game.toml`" --project-root `"$R`" --disc `"$img`""
 }
 Etapa '4_compilar' {
+    Corrigir-Framework   # também no -RefazerDe 3/4, depois de atualizar o port
     Msg 'compilando (leva alguns minutos)'
     Exec $LOG "python `"$R\psxrecomp\psxrecomp_cli.py`" rebuild --config `"$R\game.toml`" --project-root `"$R`" --build-dir `"$R\build-release`" --no-pgo"
     if (-not (Test-Path -LiteralPath (Join-Path $R 'build-release\SilentHill.exe'))) { throw 'a compilação terminou sem o build-release\SilentHill.exe' }
