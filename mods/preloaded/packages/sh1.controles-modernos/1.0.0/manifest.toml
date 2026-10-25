@@ -1,0 +1,82 @@
+format_version = 11
+id = "sh1.controles-modernos"
+version = "1.0.0"
+name = "Controles modernos"
+author = "otavix010"
+description = "Tira os controles \"tank\": o Harry anda para onde o analógico aponta, em relação à câmera, girando sozinho até a direção. Mirar, menus e cenas continuam com os controles originais. Desligado, o jogo fica como no PlayStation."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01514"
+
+[[feature]]
+id = "controles-modernos"
+name = "Controles modernos"
+description = "O analógico esquerdo (ou o direcional) aponta para onde o Harry anda, em relação à câmera. Com o analógico no fim do curso ele corre. Ao mirar (R1), volta o controle original para girar no lugar."
+group = "Jogabilidade"
+default_enabled = true
+
+[[option]]
+feature = "controles-modernos"
+id = "travar_direcao"
+label = "Manter a direção enquanto segurar o analógico"
+description = "A direção vale para a câmera do momento em que você inclinou o analógico, até soltar ou virar mais de 45 graus. Assim o Harry segue reto mesmo quando a câmera gira atrás dele ou troca de ângulo. Desligado, a direção acompanha a câmera a cada instante."
+group = "Jogabilidade"
+type = "boolean"
+default = "true"
+
+[[option]]
+feature = "controles-modernos"
+id = "correr_no_fim_do_curso"
+label = "Correr com o analógico no fim do curso"
+description = "Analógico todo inclinado corre; um pouco inclinado anda. O botão de correr do jogo continua valendo."
+group = "Jogabilidade"
+type = "boolean"
+default = "true"
+
+[[option]]
+feature = "controles-modernos"
+id = "direcional_moderno"
+label = "Direcional também no modo moderno"
+description = "O direcional (e o teclado) também aponta a direção, em oito sentidos. Desligado, o direcional fica com os controles originais."
+group = "Jogabilidade"
+type = "boolean"
+default = "true"
+
+[[option]]
+feature = "controles-modernos"
+id = "giro"
+label = "Velocidade do giro"
+description = "Quão rápido o Harry vira para a direção pedida."
+group = "Jogabilidade"
+type = "choice"
+default = "normal"
+
+[[option.choice]]
+value = "suave"
+label = "Suave"
+
+[[option.choice]]
+value = "normal"
+label = "Normal"
+
+[[option.choice]]
+value = "instantaneo"
+label = "Instantâneo"
+
+[[option]]
+feature = "controles-modernos"
+id = "zona_morta"
+label = "Zona morta do analógico (%)"
+description = "Quanto o analógico precisa inclinar antes de o Harry andar."
+group = "Jogabilidade"
+type = "integer"
+min = 5
+max = 60
+step = 5
+default = 25
+
+[[plugin]]
+feature = "controles-modernos"
+id = "sh1.controles-modernos"

@@ -1,0 +1,3 @@
+# versões do framework usadas por este port (submódulos)
+psxrecomp 7097d5367d37e228ce95e4d2b38739d619904fd7
+recomp-ui 3f1d6f122a58823614abce14f5b86f4d165a629c

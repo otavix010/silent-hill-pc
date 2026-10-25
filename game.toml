@@ -1,0 +1,58 @@
+# Autofilled by tools/new_project_layout/probe_disc.py from your legal dump.
+# Review before shipping. Runtime quirks / overlay seeds still need hand work.
+
+[game]
+name = "SilentHill"
+id = "SLES-01514"
+players = 1
+exe = "disc/SLES_015.14"
+disc = "disc/SilentHill_EU.cue"
+load_address = "0x80010000"
+entry_pc = "0x80012F5C"
+text_size = "0x00014000"
+stack_base = "0x801FFFF0"
+
+# Digests are for data Track 01 (first BINARY FILE / TRACK 01).
+[prepare_disc]
+out_dir = "disc"
+bin_name = "SilentHill_EU.bin"
+cue_name = "SilentHill_EU.cue"
+boot_exe = "SLES_015.14"
+known_sizes = [634877712]
+known_md5 = [
+  "980eaef02b5d8476964d9d37ffaa01cc",
+]
+known_sha1 = [
+  "ca67a93e507b999a0040242362162e442f2ba07e",
+]
+known_crc32 = [
+  "1788aa2e",
+]
+
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+out_dir = "generated"
+strict = true
+
+[runtime]
+window_title = "SilentHill Recompiled"
+memcard_dir = "saves"
+overlay_cache = true
+
+[video]
+renderer = "opengl"
+aspect_ratio = "4:3"
+# sem o pontilhado do PS1: no monitor nítido e ampliado ele vira grão colorido
+dithering = "off"
+# resolução interna acompanha o monitor e cai sozinha se faltar desempenho
+internal_resolution = "auto"
+
+[controller]
+default_mode = "digital"
+
+# Online mount gate: digests + track count + optional TOC fingerprint
+# (see docs/NETPLAY.md).
+[netplay]
+require_cue = true
+required_tracks = 1
+required_disc_fp = "752c1206f4c74d353399140f392c536e1e54b731d1a589d44440fa8ecfddb94a"

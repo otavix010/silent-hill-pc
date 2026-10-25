@@ -1,0 +1,5 @@
+# O cmd precisa de CRLF, e o PowerShell 5.1 lê melhor os scripts com CRLF (também no ZIP do GitHub).
+/*.cmd text eol=crlf
+/*.ps1 text eol=crlf
+*.png binary
+*.ico binary

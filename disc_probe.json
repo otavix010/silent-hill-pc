@@ -1,0 +1,31 @@
+{
+  "cue_path": "disc/SilentHill_EU.cue",
+  "cue_name": "SilentHill_EU.cue",
+  "bin_name": "SilentHill_EU.bin",
+  "track_count": 1,
+  "data_track_size": 634877712,
+  "data_track_md5": "980eaef02b5d8476964d9d37ffaa01cc",
+  "data_track_sha1": "ca67a93e507b999a0040242362162e442f2ba07e",
+  "data_track_crc32": "1788aa2e",
+  "boot_exe": "SLES_015.14",
+  "serial": "SLES-01514",
+  "serial_exe": "SLES_015.14",
+  "volume_id": "",
+  "display_name": "SilentHill",
+  "load_address": "0x80010000",
+  "entry_pc": "0x80012F5C",
+  "text_size": "0x00014000",
+  "stack_base": "0x801FFFF0",
+  "require_cue": true,
+  "required_disc_fp": "752c1206f4c74d353399140f392c536e1e54b731d1a589d44440fa8ecfddb94a",
+  "boot_exe_sha256": "f044da1307dfa441439e3970477eee60a9649d92afa0dff699f2c4468b253a2c",
+  "seed_count": 143,
+  "warnings": [
+    "cue has only 1 TRACK — Track-01-only dumps fail multi-track netplay/catalog gates; prefer a full Redump cue."
+  ],
+  "notes": [
+    "entry_pc/load_address/text_size/stack_base taken from PS-X EXE header.",
+    "seeds are first-pass boot-EXE JAL targets (+ entry); expect to grow as overlays / runtime paths are discovered.",
+    "required_disc_fp is psxrecomp-toc-v1 (matches runtime DiscIdentity)."
+  ]
+}
