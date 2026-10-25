@@ -40,7 +40,7 @@ O resto o gerador baixa sozinho: o PSXRecomp (nas versões fixadas em `framework
 - traduz o código do jogo para C (`generated\`, só no seu PC);
 - compila (`build-release\SilentHill.exe`).
 
-**5. Jogue com `jogar.cmd`.** Os saves (cartão de memória) ficam em `build-release\saves\`.
+**5. Jogue com `jogar.cmd`.** Os saves (cartões de memória `card1.mcd` e `card2.mcd`) ficam em `saves\`, na pasta do port: gerar de novo ou atualizar não mexe neles.
 
 Depois de atualizar o port, `gerar.cmd -RefazerDe 3` retraduz e recompila sem repetir as ferramentas e o disco.
 
