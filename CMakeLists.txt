@@ -59,6 +59,9 @@ psxrecomp_add_game_runtime(psx-runtime
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/controles_modernos.c")
 # Opções do Otavix Launcher que o runtime só leria pelo mini-launcher do framework
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/opcoes_launcher.c")
+# Medidor de desempenho (F10 / SH_OSD=1): contadores do Windows (PDH) e a DXGI
+target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/medidor.c")
+target_link_libraries(psx-runtime PRIVATE pdh dxgi)
 
 foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_PSX_RUNTIME_CONFIG}")

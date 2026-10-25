@@ -1,0 +1,22 @@
+format_version = 11
+id = "sh1.medidor"
+version = "1.0.0"
+name = "Medidor de desempenho"
+author = "otavix010"
+description = "FPS do jogo, uso e temperatura da CPU e da GPU, VRAM e RAM no canto da tela. Fica escondido até apertar F10 (ou a opção do launcher)."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01514"
+
+[[feature]]
+id = "medidor"
+name = "Medidor de desempenho (F10)"
+description = "Ligado aqui, a tecla F10 mostra e esconde o medidor; a opção do launcher (SH_OSD=1) já abre mostrando. Escondido, não custa nada."
+group = "Ferramentas"
+default_enabled = true
+
+[[plugin]]
+feature = "medidor"
+id = "sh1.medidor"
