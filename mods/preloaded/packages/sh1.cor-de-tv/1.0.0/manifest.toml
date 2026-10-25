@@ -1,0 +1,22 @@
+format_version = 11
+id = "sh1.cor-de-tv"
+version = "1.0.0"
+name = "Cor de TV"
+author = "otavix010"
+description = "Borra só a cor da imagem 3D, como a TV de tubo do PlayStation: tira os pontinhos verdes, vermelhos e azuis que piscam nas texturas (ruído de cor das texturas originais) sem perder nitidez."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01514"
+
+[[feature]]
+id = "cor-de-tv"
+name = "Cor de TV"
+description = "Ligado, a cor de cada ponto da imagem 3D é a média de uma janela de 5x3 pixels do PS1, como no vídeo composto; o brilho fica intacto. Vídeos e menus não mudam. Desligado, a cor fica nítida pixel a pixel."
+group = "Vídeo"
+default_enabled = true
+
+[[plugin]]
+feature = "cor-de-tv"
+id = "sh1.cor-de-tv"

@@ -67,6 +67,8 @@ target_link_libraries(psx-runtime PRIVATE pdh dxgi gdi32 user32)
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/movimento_suave.c")
 # Fluidez 50 FPS: o gameplay espera 1 VBlank por quadro, com a CPU emulada 2x ([timing] do game.toml)
 target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/fluidez.c")
+# Cor de TV: borrão só de cor nos quadros 3D (precisa do patches/psxrecomp_sh1.py aplicado)
+target_sources(psx-runtime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/cor_de_tv.c")
 
 foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_PSX_RUNTIME_CONFIG}")

@@ -14,6 +14,7 @@ Como o código do jogo não pode ser distribuído, **o seu PC gera e compila a p
 
 - **Controles modernos** (um mod que se liga e desliga): o analógico ou o direcional apontam para onde o Harry anda, em relação à câmera, em vez dos controles "tank". Mirar, menus e cenas continuam com o controle original. Desligado, o jogo fica como no PlayStation.
 - Resolução interna acompanhando o monitor (cai sozinha se faltar desempenho) e sem o pontilhado (*dithering*) do PS1, que num monitor nítido vira grão colorido.
+- **Cor de TV** (mod ligado por padrão): borra só a cor da imagem 3D, como a TV de tubo do PlayStation, e tira os pontinhos coloridos que piscam nas texturas sem perder nitidez.
 - **50 FPS no gameplay** (mod ligado por padrão): o PlayStation europeu roda o gameplay a 25 fps; aqui ele vai a 50, na mesma velocidade de jogo.
 - **Medidor de desempenho** (outro mod): **F10** mostra FPS, uso e temperatura da CPU e da GPU, VRAM e RAM no canto da tela.
 
@@ -56,6 +57,10 @@ O pacote `mods/preloaded/packages/sh1.controles-modernos` vem **ligado**. As esc
 | Direcional também no modo moderno | ligada | o direcional e o teclado apontam a direção, em oito sentidos |
 | Velocidade do giro | normal | suave, normal ou instantâneo |
 | Zona morta do analógico | 25% | quanto o analógico precisa inclinar antes de o Harry andar |
+
+## Cor de TV
+
+O pacote `sh1.cor-de-tv` vem **ligado**. As texturas do Silent Hill têm ruído de cor (fotos com grão, paleta de 4 ou 8 bits). No PlayStation, a TV recebia vídeo composto/RF, que tem pouca banda para a cor: esse ruído sumia e o brilho continuava nítido. Ampliado num monitor nítido, ele vira pontinhos verdes, vermelhos e azuis que piscam com o movimento. O mod liga um borrão **só de cor** na apresentação dos quadros 3D (a cor de cada ponto vem de uma janela de 5x3 pixels do PS1, como no filtro de cor de uma TV PAL); o brilho fica intacto, e vídeos e menus não mudam. Medido nas demonstrações da tela de título: o ruído de cor caiu de 50% a 70% e o detalhe de brilho ficou igual. O borrão é uma correção nossa no shader do PSXRecomp (`patches/psxrecomp_sh1.py`, aplicada pelo gerador).
 
 ## Fluidez 50 FPS
 
