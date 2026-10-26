@@ -13,7 +13,7 @@ game_id = "SLES-01514"
 [[feature]]
 id = "fluidez"
 name = "Fluidez 50 FPS"
-description = "Ligado, o jogo espera 1 VBlank por quadro no gameplay (o original espera 2) e a CPU emulada fica 2x mais rápida para dar conta. Desligado, é o ritmo original de 25 fps. Menus e vídeos não mudam."
+description = "Ligado, o jogo espera 1 VBlank por quadro no gameplay (o original espera 2) e a CPU emulada fica até 2x mais rápida para dar conta. Se o PC não acompanhar o 2x, ela desce sozinha (até 1x): o jogo desenha menos quadros nas cenas pesadas, mas sem câmera lenta nem som picotado. Desligado, é o ritmo original de 25 fps. Menus e vídeos não mudam."
 group = "Desempenho"
 default_enabled = true
 
