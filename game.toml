@@ -60,6 +60,10 @@ anisotropic_filtering = 16
 
 [controller]
 default_mode = "digital"
+# Jogador 1 no primeiro controle conectado ("auto"). O PSXRecomp de release começa no teclado e deixa a escolha
+# para o mini-launcher dele, que o Otavix Launcher pula (PSX_NO_LAUNCHER): sem isto, num PC novo o controle era
+# ignorado. O teclado continua valendo junto (as teclas ficam sempre ativas, pad_sources_for).
+p1_device = "auto"
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).
